@@ -1,0 +1,5 @@
+Flask
+SpeechRecognition
+pydub
+
+to install these we could use single command  `pip install -r requirements.txt`
