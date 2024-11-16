@@ -2,4 +2,4 @@ Flask
 SpeechRecognition
 pydub
 
-to install these we could use single command  `pip install -r requirements.txt`
+to install these we could use single command is enough for all installation `pip install -r requirements.txt`
