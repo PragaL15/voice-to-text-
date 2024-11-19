@@ -7,10 +7,9 @@ import logging
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
-app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024  # Set max file size to 5MB
+app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024  
 CORS(app, resources={r"/convert": {"origins": "http://localhost:5173"}})
 
-# Setup logger for better debugging
 logging.basicConfig(level=logging.INFO)
 logger = app.logger
 logger.setLevel(logging.INFO)
@@ -30,22 +29,19 @@ def convert_audio():
     audio_file = request.files['audio_data']
 
     try:
-        # Verify the audio file is in WAV format
         with wave.open(audio_file, 'rb') as wav_file:
-            wav_file.getnchannels()  # Check we can read the file
-        audio_file.seek(0)  # Reset file pointer for further reading
+            wav_file.getnchannels() 
+        audio_file.seek(0)  
     except wave.Error:
         logger.error("Uploaded file is not in WAV format")
         return jsonify({'error': 'Uploaded file is not in WAV format'}), 400
 
-    # Process audio for speech recognition
     audio_data = sr.AudioFile(audio_file)
     try:
         with audio_data as source:
-            recognizer.adjust_for_ambient_noise(source, duration=1)  # Improved ambient noise adjustment
+            recognizer.adjust_for_ambient_noise(source, duration=1)  
             audio = recognizer.record(source)
 
-        # Attempt to recognize the speech
         text = recognizer.recognize_google(audio)
         logger.info("Speech recognized successfully")
         return jsonify({'text': text}), 200
